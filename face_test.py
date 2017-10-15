@@ -2,6 +2,7 @@ import face_recognition
 import cv2
 import pymongo as mongo
 import os
+from account import Account
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -26,24 +27,45 @@ facebook_icon = cv2.resize(facebook_icon, (30, 30))
 # Load a sample picture and learn how to recognize it.
 
 image_encoding_list = []
+accounts_list = []
 
-for file in os.listdir('.\photos'):
+for file in os.listdir('./photos'):
     if file.endswith(".jpg"):
-        temp_img = face_recognition.load_image_file(file)
-        temp_encoding = face_recognition.face_encodings(temp_image)[0]
+        temp_img = face_recognition.load_image_file('./photos/' + str(file))
+        temp_encoding = face_recognition.face_encodings(temp_img)[0]
         image_encoding_list.append(temp_encoding)
 
+f = open("emails.txt")
 
-print(image_encoding_list)
+for line in f:
+    info = line.split(",")
 
+    name = info[0].split(":")[1]
+    number = info[1].split(":")[1]
+    fb = info[2].split(":")[1]
+    twitter = ''
+    insta = ''
 
+    if (len(info) > 3):
+        tmp = info[3].split(":")
+        if(tmp[0] == "twitterURL"):
+            twitter = tmp[1]
+        else:
+            insta = tmp[1]
 
+    if (len(info) > 4):
+        tmp = info[4].split(":")
+        if(tmp[0] == "instagramURL"):
+            insta = tmp[1]
+        else:
+            twitter = tmp[1]
 
-obama_image = face_recognition.load_image_file("obama.jpg")
-obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
-
-nick_image = face_recognition.load_image_file("nick.jpg")
-nick_face_encoding = face_recognition.face_encodings(nick_image)[0]
+    account = Account(name,number,fb)
+    if twitter is not '':
+        account.addTwitter(twitter)
+    if insta is not '':
+        account.addInsta(insta)
+    accounts_list.append(account)
 
 # Initialize some variables
 face_locations = []
@@ -69,17 +91,15 @@ while True:
         face_encodings = face_recognition.face_encodings(small_frame, face_locations)
 
         face_names = []
+        name = 'Unknown'
         for face_encoding in face_encodings:
             # See if the face is a match for the known face(s)
-            match = face_recognition.compare_faces(
-                [obama_face_encoding, nick_face_encoding], face_encoding)
-            name = "Unknown"
+            match = face_recognition.compare_faces(image_encoding_list, face_encoding)
 
-            if match[0]:
-                name = "Obama"
-
-            if match[1]:
-                name = "Nick"
+            for i in range(len(match)):
+                if match[i]:
+                    print(accounts_list[i].name)
+                    name = accounts_list[i].name
 
             face_names.append(name)
 
@@ -104,10 +124,10 @@ while True:
         if(name != "Unknown"):
             cv2.rectangle(frame, (left, bottom),
                           (right, bottom + 35), (255, 255, 255), cv2.FILLED)
-            frame[bottom:bottom + facebook_icon.shape[0],
-                  left + 5:left + 5 + facebook_icon.shape[1]] = facebook_icon
-            frame[bottom:bottom + github_icon.shape[0],
-                  left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + github_icon.shape[1]] = github_icon
+           # frame[bottom:bottom + facebook_icon.shape[0],
+            #      left + 5:left + 5 + facebook_icon.shape[1]] = facebook_icon
+            #frame[bottom:bottom + github_icon.shape[0],
+             #     left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + github_icon.shape[1]] = github_icon
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6),
                     font, 1.0, (255, 255, 255), 1)
