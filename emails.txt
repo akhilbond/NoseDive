@@ -1,2 +1,1 @@
-nick;www.facebook.com/ngrieco;www.twitter.com/ngrieco;www.instagram.com/ngrieco17
-
+firstName:nick,phoneNumber:123-456-7890,facebookURL:www.facebook.com/ngrieco,twitterURL:www.twitter.com/ngrieco,instagramURL:www.instagram.com/ngrieco17
