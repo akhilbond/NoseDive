@@ -1,6 +1,7 @@
 import face_recognition
 import cv2
 import pymongo as mongo
+import os
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -12,7 +13,7 @@ import pymongo as mongo
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Get a reference to webcam #0 (the default one)
-video_capture = cv2.VideoCapture(2)
+video_capture = cv2.VideoCapture(0)
 
 count = 0
 
@@ -23,6 +24,21 @@ facebook_icon = cv2.imread("Facebook.png")
 facebook_icon = cv2.resize(facebook_icon, (30, 30))
 
 # Load a sample picture and learn how to recognize it.
+
+image_encoding_list = []
+
+for file in os.listdir('.\photos'):
+    if file.endswith(".jpg"):
+        temp_img = face_recognition.load_image_file(file)
+        temp_encoding = face_recognition.face_encodings(temp_image)[0]
+        image_encoding_list.append(temp_encoding)
+
+
+print(image_encoding_list)
+
+
+
+
 obama_image = face_recognition.load_image_file("obama.jpg")
 obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
 
@@ -85,7 +101,7 @@ while True:
                       (right, bottom), (0, 0, 255), cv2.FILLED)
 
         # Draw a label with a name below the face
-        if(name == "Unknown"):
+        if(name != "Unknown"):
             cv2.rectangle(frame, (left, bottom),
                           (right, bottom + 35), (255, 255, 255), cv2.FILLED)
             frame[bottom:bottom + facebook_icon.shape[0],
