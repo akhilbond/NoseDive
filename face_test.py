@@ -16,6 +16,12 @@ video_capture = cv2.VideoCapture(0)
 
 count = 0
 
+github_icon = cv2.imread("GitHub.jpg")
+github_icon = cv2.resize(github_icon, (30, 30))
+
+facebook_icon = cv2.imread("Facebook.png")
+facebook_icon = cv2.resize(facebook_icon, (30, 30))
+
 # Load a sample picture and learn how to recognize it.
 obama_image = face_recognition.load_image_file("obama.jpg")
 obama_face_encoding = face_recognition.face_encodings(obama_image)[0]
@@ -77,10 +83,13 @@ while True:
         # Draw a label with a name below the face
         cv2.rectangle(frame, (left, bottom - 35),
                       (right, bottom), (0, 0, 255), cv2.FILLED)
+
         # Draw a label with a name below the face
-        if(name != "Unknown"):
+        if(name == "Unknown"):
             cv2.rectangle(frame, (left, bottom),
                           (right, bottom + 35), (255, 255, 255), cv2.FILLED)
+            frame[bottom:bottom + facebook_icon.shape[0],
+                  left:left + facebook_icon.shape[1]] = facebook_icon
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6),
                     font, 1.0, (255, 255, 255), 1)
