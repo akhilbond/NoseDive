@@ -13,27 +13,27 @@ app.use(logger("dev"));
 //Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 
-var storage = multer.diskStorage({
-	destination: function(req, file, callback) {
-		callback(null, './public/uploads')
-	},
-	filename: function(req, file, callback) {
-		console.log(file)
-		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-	}
-})
-
-app.post('/upload', function(req, res) {
-	var upload = multer({
-		storage: storage
-	}).single('userFile')
-	upload(req, res, function(err) {
-		if(err){
-			throw err
-		}
-		res.end('File is uploaded')
-	})
-})
+// var storage = multer.diskStorage({
+// 	destination: function(req, file, callback) {
+// 		callback(null, './public/uploads')
+// 	},
+// 	filename: function(req, file, callback) {
+// 		console.log(file)
+// 		callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+// 	}
+// })
+//
+// app.post('/upload', function(req, res) {
+// 	var upload = multer({
+// 		storage: storage
+// 	}).single('userFile')
+// 	upload(req, res, function(err) {
+// 		if(err){
+// 			throw err
+// 		}
+// 		res.end('File is uploaded')
+// 	})
+// })
 // BodyParser makes it possible for our server to interpret data sent to it.
 // The code below is pretty standard.
 app.use(bodyParser.json());
@@ -42,20 +42,21 @@ app.use(bodyParser.text());
 // app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 // Sets an initial port. We"ll use this later in our listener
-var PORT= process.env.PORT || 8080;
+var PORT= process.env.PORT || 3000;
 
 app.get('/', function(req,res){
 	res.sendFile(path.join(__dirname,'/public/main-sign-in.html'))
 })
 
 app.get('/upload', function(req, res){
-	res.sendFile(path.join(__dirname,"/public/loggedIn.html"))
+	res.end()
+	// res.sendFile(path.join(__dirname,"/public/loggedIn.html"))
 })
 
-app.post("/register", function(req, res){	
+app.post("/register", function(req, res){
 	//object(key value pairs)
 	console.log(req.body)
-	
+
 	userValues = []
 	for(var key in req.body){
 		userValues.push(key + ":" + req.body[key])
@@ -65,9 +66,9 @@ app.post("/register", function(req, res){
 	console.log(userValues)
 
 	//put only values into an array for easy processing on python's end
-	userData = __dirname + '/public/userData.txt';
+	userData = 'C:/Users/Owner/Documents/GitHub/NoseDive/emails.txt';
 
-	fs.appendFile("public/userData.txt", userValues, function(err){
+	fs.appendFile(userData, userValues, function(err){
 		if(err){
 			throw err
 		}
