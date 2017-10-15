@@ -1,0 +1,115 @@
+</!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+	<div class="container">
+  	<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+
+				<div class="panel panel-login">
+					<div class="panel-heading">
+						<div class="row">
+							<!-- Tab for login -->
+							<div class="col-xs-6">
+								<a href="#" class="active" id="login-form-link">Login</a>
+							</div>
+							<!-- tab for sign up -->
+							<div class="col-xs-6">
+								<a href="#" id="register-form-link">Register</a>
+							</div>
+						</div>
+						<hr>
+					</div><!-- close panel heading -->
+
+					<!-- Login Form & Sign Up Form -->
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<!-- login form -->
+								<form id="login-form" method="post" role="form">
+									<div class="form-group inner-addon left-addon">
+										<i class="glyphicon glyphicon-user"></i>
+										<input type="text" name="username" id="usernameLogIn" tabindex="1" class="form-control" placeholder="Username" value="">
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="passwordLogIn" tabindex="2" class="form-control" placeholder="Password">
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+											</div>
+										</div>
+									</div>
+								</form>
+								<!-- sign up form -->
+								<form id="register-form" role="form">
+									<p> * Indicates a required field </p>
+									<div class="form-group">
+										<input type="text" name="username" id="usernameSignUp" tabindex="1" class="form-control" placeholder="Username*" value="" required>
+									</div>
+									<div class="form-group">
+										<input type="text" name="firstName" id="firstName" tabindex="1" class="form-control" placeholder="First Name*" value="" required>
+									</div>
+									<div class="form-group">
+										<input type="text" name="lastName" id="lastName" tabindex="1" class="form-control" placeholder="Last Name*" value="" required>
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="passwordSignUp" tabindex="2" class="form-control" placeholder="Password*" required>
+									</div>
+									<div class="form-group">
+										<input type="number" name="phone-number" id="phone-number" class="form-control" placeholder= "9734857789" required>
+									</div>
+									<!-- <div class="form-group">
+										<label for="imageFile">Upload A Face Picture</label>
+										<input type="file" id="imageFile" name="imageFile">
+									</div> -->
+									<div class="form-group">
+										<input type="text" name="facebook-url" id="facebook-url" tabindex="3" class="form-control" placeholder="Facebook URL*" required>
+									</div>
+									<div class="form-group">
+										<input type="text" name="twitter-url" id="twitter-url" tabindex="4" class="form-control" placeholder= "Twitter URL">
+									</div>
+									<div class="form-group">
+										<input type="text" name="instagram-url" id="instagram-url" tabindex="4" class="form-control" placeholder= "Instagram URL">
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+											</div>
+										</div>	
+									</div>
+								</form>	<!-- close sign up form -->
+							</div>
+						</div>
+					</div> <!-- close panel body -->
+				</div><!-- close panel -->
+
+			</div> <!-- close col-md-6 -->
+		</div> <!-- close main row -->
+	</div> <!-- close container -->
+
+	<script
+  src="https://code.jquery.com/jquery-2.2.4.js"
+  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+  crossorigin="anonymous"></script>
+  <script src="http://malsup.github.com/jquery.form.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
