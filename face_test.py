@@ -47,34 +47,36 @@ def click_and_keep(event, x, y, flags, param):
         account_sid = "ACf91e60bf6394982df564444b5db4c508"
         auth_token  = "59bb2da30e29d7414d9d629f3d73f3ee"
         client = Client(account_sid, auth_token)
-        data = "Someone has scanned your ", prof, " profile from Nosedive!"
+        data = "Someone has scanned your " + prof + " profile from Nosedive!"
         userPhone = 0
 
         for i in range(len(accounts_list)):
-            if(Prof == "Facebook"):
-                if fb_button.link == ("facebookURL:"+accounts_list[i].fb):
-                    userPhone = accounts_list[i].phone
-            if(Prof == "Twitter"):
-                if twitter_button.link == ("twitterURL:"+accounts_list[i].twitter):
-                    userPhone = accounts_list[i].phone
-            if(Prof == "Instagram"):
-                if insta_button.link == ("instagramURL:"+accounts_list[i].insta):
-                    userPhone = accounts_list[i].phone
-            if(Prof == ""):
-                
+            if(prof == "Facebook"):
+                if fb_button.link == (accounts_list[i].fb):
+                    userPhone = accounts_list[i].number
+            if(prof == "Twitter"):
+                if twitter_button.link == (accounts_list[i].twitter):
+                    userPhone = accounts_list[i].number
+            if(prof == "Instagram"):
+                if insta_button.link == (accounts_list[i].insta):
+                    userPhone = accounts_list[i].number
+            if(prof == ""):
+                pass
 
-        message = client.messages.create(
-        	to="+1" + userPhone,
-        	from_="+3363447154",
-        	body=data)
-
-
-
-
+        if(prof != ""):
+            message = client.messages.create(
+            	to="+1" + str(userPhone),
+            	from_="+13363447154",
+            	body=data)
+                print("Message sent to ", to)
 
 
 
-video_capture = cv2.VideoCapture(0)
+
+
+
+
+video_capture = cv2.VideoCapture(1)
 
 count = 0
 

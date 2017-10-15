@@ -1,2 +1,3 @@
-firstName:peri,phoneNumber:9732199841,facebookURL:www.facebook.com/peri.akiva,instagramURL:www.instagram.com/periakiva
-firstName:abdul,phoneNumber:123-456-7890,facebookURL:www.facebook.com/ngrieco,twitterURL:www.twitter.com/fag,instagramURL:www.instagram.com/ngrieco17
+firstName:nick,phoneNumber:9732199841,facebookURL:www.facebook.com/nicholas.r.grieco
+firstName:abdul,phoneNumber:8625790916,facebookURL:www.facebook.com/abdulkareem.khan.92
+firstName:akhil,phoneNumber:3363243378,facebookURL:www.facebook.com/akhil.bondlela
