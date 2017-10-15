@@ -3,6 +3,7 @@ import cv2
 import pymongo as mongo
 import os
 from account import Account
+import webbrowser
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -14,17 +15,50 @@ from account import Account
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Get a reference to webcam #0 (the default one)
-video_capture = cv2.VideoCapture(1)
+
+class Button(object):
+    def __init__(self,topleft,bottomright,link):
+        self.topleft = topleft
+        self.bottomright = bottomright
+        self.link = link
+
+def click_and_keep(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        fb_button = param[0]
+        twitter_button = param[1]
+        insta_button = param[2]
+
+        if(x>fb_button.topleft[0] and x<fb_button.bottomright[0] and y<fb_button.bottomright[1] and y>fb_button.topleft[1]):
+            webbrowser.open_new(str(fb_button.link))
+        elif(x>twitter_button.topleft[0] and x<twitter_button.bottomright[0] and y<twitter_button.bottomright[1] and y>twitter_button.topleft[1]):
+            if twitter_button.link is not '':
+                webbrowser.open_new(str(twitter_button.link))
+        elif(x>insta_button.topleft[0] and x<insta_button.bottomright[0] and y<insta_button.bottomright[1] and y>insta_button.topleft[1]):
+            if insta_button.link is not '':
+                webbrowser.open_new(str(insta_button.link))
+
+
+
+
+video_capture = cv2.VideoCapture(0)
+
 
 count = 0
 
-github_icon = cv2.imread("GitHub.jpg")
-github_icon = cv2.resize(github_icon, (30, 30))
+insta_icon = cv2.imread("Instagram.png")
+insta_icon = cv2.resize(insta_icon, (30, 30))
+
+twitter_icon = cv2.imread("Twitter.jpg")
+twitter_icon = cv2.resize(twitter_icon, (30, 30))
 
 facebook_icon = cv2.imread("Facebook.png")
 facebook_icon = cv2.resize(facebook_icon, (30, 30))
 
 # Load a sample picture and learn how to recognize it.
+
+fb_button = []
+insta_button = []
+twitter_button = []
 
 image_encoding_list = []
 accounts_list = []
@@ -73,6 +107,8 @@ face_encodings = []
 face_names = []
 process_this_frame = True
 
+cv2.setMouseCallback("Video", click_and_keep)
+
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
@@ -112,6 +148,10 @@ while True:
         bottom *= 4
         left *= 4
 
+
+        #insta = Button()
+        #twitter = Button()
+
         # Draw a box around the face
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
 
@@ -120,19 +160,41 @@ while True:
                       (right, bottom), (0, 0, 255), cv2.FILLED)
 
         # Draw a label with a name below the face
-        if(name == "Unknown"):
+        if(name != "Unknown"):
+            for i in range(len(accounts_list)):
+                if name == accounts_list[i].name:
+                    twitter = accounts_list[i].twitter
+                    insta = accounts_list[i].insta
+                    fb = accounts_list[i].fb
+
             cv2.rectangle(frame, (left, bottom),
                           (right, bottom + 35), (255, 255, 255), cv2.FILLED)
             if(bottom<=440):
+                fb_button = Button((left+5,bottom),(left + 5 + facebook_icon.shape[1],bottom + facebook_icon.shape[0]),str(fb))
+
+                twitter_button = Button((left + facebook_icon.shape[1] + 15,bottom),(left + facebook_icon.shape[1] + 15 + facebook_icon.shape[1],bottom + facebook_icon.shape[0]),str(twitter))
+
+                insta_button = Button((left + facebook_icon.shape[1] + facebook_icon.shape[1] + 30,bottom),(left + facebook_icon.shape[1] + 30 + facebook_icon.shape[1]+facebook_icon.shape[1],bottom + facebook_icon.shape[0]),str(insta))
+
                 frame[bottom:bottom + facebook_icon.shape[0],
                      left + 5:left + 5 + facebook_icon.shape[1]] = facebook_icon
-                frame[bottom:bottom + github_icon.shape[0],
-                     left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + github_icon.shape[1]] = github_icon
+                if(twitter is not ''):
+                    frame[bottom:bottom + facebook_icon.shape[0],
+                         left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + facebook_icon.shape[1]] = twitter_icon
+
+
+                if(insta is not ''):
+                    frame[bottom:bottom + facebook_icon.shape[0],
+                         left + facebook_icon.shape[1] + facebook_icon.shape[1] + 30:left + facebook_icon.shape[1] + 30 + facebook_icon.shape[1]+facebook_icon.shape[1]] = insta_icon
+
+
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6),
                     font, 1.0, (255, 255, 255), 1)
 
     # Display the resulting image
+    cv2.namedWindow("Video")
+    cv2.setMouseCallback("Video", click_and_keep, (fb_button,twitter_button,insta_button))
     cv2.imshow('Video', frame)
 
     # Hit 'q' on the keyboard to quit!

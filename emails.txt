@@ -1,3 +1,2 @@
-firstName:nick,phoneNumber:123-456-7890,facebookURL:www.facebook.com/ngrieco,twitterURL:www.twitter.com/ngrieco,instagramURL:www.instagram.com/ngrieco17
+firstName:peri,phoneNumber:123-456-7890,facebookURL:www.facebook.com/peri.akiva,instagramURL:www.instagram.com/periakiva
 firstName:abdul,phoneNumber:123-456-7890,facebookURL:www.facebook.com/ngrieco,twitterURL:www.twitter.com/fag,instagramURL:www.instagram.com/ngrieco17
-firstName:peri,phoneNumber:123-456-7890,facebookURL:www.facebook.com/ngrieco,twitterURL:www.twitter.com/fag,instagramURL:www.instagram.com/ngrieco17
