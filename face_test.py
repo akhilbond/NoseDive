@@ -6,6 +6,7 @@ from account import Account
 import webbrowser
 import sys
 from twilio.rest import Client
+import time
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -17,6 +18,70 @@ from twilio.rest import Client
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Get a reference to webcam #0 (the default one)
+
+class Monkey(object):
+    def __init__(self):
+        self._cached_stamp = 0
+        self.filename = 'emails.txt'
+
+    def ook(self):
+        stamp = os.stat(self.filename).st_mtime
+        if stamp != self._cached_stamp:
+            self._cached_stamp = stamp
+            global image_encoding_list
+            image_encoding_list = []
+            global accounts_list
+            accounts_list = []
+
+            for file in os.listdir('./photos'):
+                if file.endswith(".jpg"):
+                    temp_img = face_recognition.load_image_file('./photos/' + str(file))
+                    temp_encoding = face_recognition.face_encodings(temp_img)[0]
+                    image_encoding_list.append(temp_encoding)
+
+            f = open("emails.txt")
+
+            for line in f:
+                info = line.split(",")
+
+                name = info[0].split(":")[1]
+                number = info[1].split(":")[1]
+                fb = info[2].split(":")[1]
+                twitter = ''
+                insta = ''
+
+                if (len(info) > 3):
+                    tmp = info[3].split(":")
+                    if(tmp[0] == "twitterURL"):
+                        twitter = tmp[1]
+                    else:
+                        insta = tmp[1]
+
+                if (len(info) > 4):
+                    tmp = info[4].split(":")
+                    if(tmp[0] == "instagramURL"):
+                        insta = tmp[1]
+                    else:
+                        twitter = tmp[1]
+
+                account = Account(name,number,fb)
+                if twitter is not '':
+                    account.addTwitter(twitter)
+                if insta is not '':
+                    account.addInsta(insta)
+                accounts_list.append(account)
+
+                print(accounts_list)
+
+
+
+def numOfImages(folder):
+    i = 0
+    for file in os.listdir(folder):
+        if file.endswith(".jpg"):
+            i = i + 1
+    return i
+
 
 class Button(object):
     def __init__(self,topleft,bottomright,link):
@@ -68,15 +133,15 @@ def click_and_keep(event, x, y, flags, param):
             	to="+1" + str(userPhone),
             	from_="+13363447154",
             	body=data)
-                print("Message sent to ", to)
+            print("Message sent to ", to)
 
 
 
 
 
 
-
-video_capture = cv2.VideoCapture(1)
+monkey = Monkey()
+video_capture = cv2.VideoCapture(0)
 
 count = 0
 
@@ -104,6 +169,8 @@ for file in os.listdir('./photos'):
         temp_encoding = face_recognition.face_encodings(temp_img)[0]
         image_encoding_list.append(temp_encoding)
 
+
+print(numOfImages('./photos'))
 f = open("emails.txt")
 
 for line in f:
@@ -135,6 +202,7 @@ for line in f:
     if insta is not '':
         account.addInsta(insta)
     accounts_list.append(account)
+    print(accounts_list)
 
 # Initialize some variables
 face_locations = []
@@ -145,6 +213,8 @@ process_this_frame = True
 cv2.setMouseCallback("Video", click_and_keep)
 
 while True:
+    monkey.ook()
+
     # Grab a single frame of video
     ret, frame = video_capture.read()
 
