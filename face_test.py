@@ -14,7 +14,7 @@ from account import Account
 # specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
 
 # Get a reference to webcam #0 (the default one)
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture(1)
 
 count = 0
 
@@ -98,7 +98,6 @@ while True:
 
             for i in range(len(match)):
                 if match[i]:
-                    print(accounts_list[i].name)
                     name = accounts_list[i].name
 
             face_names.append(name)
@@ -121,13 +120,14 @@ while True:
                       (right, bottom), (0, 0, 255), cv2.FILLED)
 
         # Draw a label with a name below the face
-        if(name != "Unknown"):
+        if(name == "Unknown"):
             cv2.rectangle(frame, (left, bottom),
                           (right, bottom + 35), (255, 255, 255), cv2.FILLED)
-           # frame[bottom:bottom + facebook_icon.shape[0],
-            #      left + 5:left + 5 + facebook_icon.shape[1]] = facebook_icon
-            #frame[bottom:bottom + github_icon.shape[0],
-             #     left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + github_icon.shape[1]] = github_icon
+            if(bottom<=440):
+                frame[bottom:bottom + facebook_icon.shape[0],
+                     left + 5:left + 5 + facebook_icon.shape[1]] = facebook_icon
+                frame[bottom:bottom + github_icon.shape[0],
+                     left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + github_icon.shape[1]] = github_icon
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6),
                     font, 1.0, (255, 255, 255), 1)
