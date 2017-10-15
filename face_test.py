@@ -89,7 +89,9 @@ while True:
             cv2.rectangle(frame, (left, bottom),
                           (right, bottom + 35), (255, 255, 255), cv2.FILLED)
             frame[bottom:bottom + facebook_icon.shape[0],
-                  left:left + facebook_icon.shape[1]] = facebook_icon
+                  left + 5:left + 5 + facebook_icon.shape[1]] = facebook_icon
+            frame[bottom:bottom + github_icon.shape[0],
+                  left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + github_icon.shape[1]] = github_icon
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6),
                     font, 1.0, (255, 255, 255), 1)
