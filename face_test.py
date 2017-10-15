@@ -4,6 +4,8 @@ import pymongo as mongo
 import os
 from account import Account
 import webbrowser
+import sys
+from twilio.rest import Client
 
 # This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
 # other example, but it includes some basic performance tweaks to make things run a lot faster:
@@ -28,20 +30,51 @@ def click_and_keep(event, x, y, flags, param):
         twitter_button = param[1]
         insta_button = param[2]
 
+        prof = ""
+
         if(x>fb_button.topleft[0] and x<fb_button.bottomright[0] and y<fb_button.bottomright[1] and y>fb_button.topleft[1]):
             webbrowser.open_new(str(fb_button.link))
+            prof = "Facebook"
         elif(x>twitter_button.topleft[0] and x<twitter_button.bottomright[0] and y<twitter_button.bottomright[1] and y>twitter_button.topleft[1]):
             if twitter_button.link is not '':
                 webbrowser.open_new(str(twitter_button.link))
+                prof = "Twitter"
         elif(x>insta_button.topleft[0] and x<insta_button.bottomright[0] and y<insta_button.bottomright[1] and y>insta_button.topleft[1]):
             if insta_button.link is not '':
                 webbrowser.open_new(str(insta_button.link))
+                prof = "Instagram"
+
+        account_sid = "ACf91e60bf6394982df564444b5db4c508"
+        auth_token  = "59bb2da30e29d7414d9d629f3d73f3ee"
+        client = Client(account_sid, auth_token)
+        data = "Someone has scanned your ", prof, " profile from Nosedive!"
+        userPhone = 0
+
+        for i in range(len(accounts_list)):
+            if(Prof == "Facebook"):
+                if fb_button.link == ("facebookURL:"+accounts_list[i].fb):
+                    userPhone = accounts_list[i].phone
+            if(Prof == "Twitter"):
+                if twitter_button.link == ("twitterURL:"+accounts_list[i].twitter):
+                    userPhone = accounts_list[i].phone
+            if(Prof == "Instagram"):
+                if insta_button.link == ("instagramURL:"+accounts_list[i].insta):
+                    userPhone = accounts_list[i].phone
+            if(Prof == ""):
+                
+
+        message = client.messages.create(
+        	to="+1" + userPhone,
+        	from_="+3363447154",
+        	body=data)
+
+
+
 
 
 
 
 video_capture = cv2.VideoCapture(0)
-
 
 count = 0
 
