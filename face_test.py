@@ -71,8 +71,6 @@ class Monkey(object):
                     account.addInsta(insta)
                 accounts_list.append(account)
 
-                print(accounts_list)
-
 
 
 def numOfImages(folder):
@@ -170,7 +168,6 @@ for file in os.listdir('./photos'):
         image_encoding_list.append(temp_encoding)
 
 
-print(numOfImages('./photos'))
 f = open("emails.txt")
 
 for line in f:
@@ -202,7 +199,6 @@ for line in f:
     if insta is not '':
         account.addInsta(insta)
     accounts_list.append(account)
-    print(accounts_list)
 
 # Initialize some variables
 face_locations = []
