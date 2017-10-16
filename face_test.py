@@ -109,8 +109,8 @@ def click_and_keep(event, x, y, flags, param):
                 webbrowser.open_new(str(insta_button.link))
                 prof = "Instagram"
 
-        account_sid = "ACf91e60bf6394982df564444b5db4c508"
-        auth_token  = "59bb2da30e29d7414d9d629f3d73f3ee"
+        account_sid = "___Twilio_Account_SID___"
+        auth_token  = "___Twilio_Account_Token___"
         client = Client(account_sid, auth_token)
         data = "Someone has scanned your " + prof + " profile from Nosedive!"
         userPhone = 0
@@ -127,13 +127,16 @@ def click_and_keep(event, x, y, flags, param):
                     userPhone = accounts_list[i].number
             if(prof == ""):
                 pass
-
-        if(prof != ""):
-            message = client.messages.create(
-            	to="+1" + str(userPhone),
-            	from_="+13363447154",
-            	body=data)
-            print("Message sent to ", to)
+            
+        ############################################################################
+        # BEFORE UNCOMMENTING, ADD YOUR TWILIO ACCOUNT SID, TOKEN, AND PHONE NUMBER#
+        ############################################################################
+        # if(prof != ""):
+        #     message = client.messages.create(
+        #     	to="+1" + str(userPhone),
+        #     	from_="___Twilio_Phone_Number___",
+        #     	body=data)
+        #     print("Message sent to ", to)
 
 
 
