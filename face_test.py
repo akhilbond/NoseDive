@@ -139,7 +139,7 @@ def click_and_keep(event, x, y, flags, param):
 
 
 monkey = Monkey()
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture(1)
 
 count = 0
 
