@@ -1,3 +1,3 @@
 # Nosedive - Computer vision based social media
 
-# Hack RU Fall 2017
+## Hack RU Fall 2017
