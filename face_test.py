@@ -8,16 +8,8 @@ import sys
 from twilio.rest import Client
 import time
 
-# This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
-# other example, but it includes some basic performance tweaks to make things run a lot faster:
-#   1. Process each video frame at 1/4 resolution (though still display it at full resolution)
-#   2. Only detect faces in every other frame of video.
-
-# PLEASE NOTE: This example requires OpenCV (the `cv2` library) to be installed only to read from your webcam.
-# OpenCV is *not* required to use the face_recognition library. It's only required if you want to run this
-# specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
-
 # Get a reference to webcam #0 (the default one)
+
 
 class Monkey(object):
     def __init__(self):
@@ -64,13 +56,12 @@ class Monkey(object):
                     else:
                         twitter = tmp[1]
 
-                account = Account(name,number,fb)
+                account = Account(name, number, fb)
                 if twitter is not '':
                     account.addTwitter(twitter)
                 if insta is not '':
                     account.addInsta(insta)
                 accounts_list.append(account)
-
 
 
 def numOfImages(folder):
@@ -82,10 +73,11 @@ def numOfImages(folder):
 
 
 class Button(object):
-    def __init__(self,topleft,bottomright,link):
+    def __init__(self, topleft, bottomright, link):
         self.topleft = topleft
         self.bottomright = bottomright
         self.link = link
+
 
 def click_and_keep(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
@@ -95,20 +87,20 @@ def click_and_keep(event, x, y, flags, param):
 
         prof = ""
 
-        if(x>fb_button.topleft[0] and x<fb_button.bottomright[0] and y<fb_button.bottomright[1] and y>fb_button.topleft[1]):
+        if(x > fb_button.topleft[0] and x < fb_button.bottomright[0] and y < fb_button.bottomright[1] and y > fb_button.topleft[1]):
             webbrowser.open_new(str(fb_button.link))
             prof = "Facebook"
-        elif(x>twitter_button.topleft[0] and x<twitter_button.bottomright[0] and y<twitter_button.bottomright[1] and y>twitter_button.topleft[1]):
+        elif(x > twitter_button.topleft[0] and x < twitter_button.bottomright[0] and y < twitter_button.bottomright[1] and y > twitter_button.topleft[1]):
             if twitter_button.link is not '':
                 webbrowser.open_new(str(twitter_button.link))
                 prof = "Twitter"
-        elif(x>insta_button.topleft[0] and x<insta_button.bottomright[0] and y<insta_button.bottomright[1] and y>insta_button.topleft[1]):
+        elif(x > insta_button.topleft[0] and x < insta_button.bottomright[0] and y < insta_button.bottomright[1] and y > insta_button.topleft[1]):
             if insta_button.link is not '':
                 webbrowser.open_new(str(insta_button.link))
                 prof = "Instagram"
 
         account_sid = "___Twilio_Account_SID___"
-        auth_token  = "___Twilio_Account_Token___"
+        auth_token = "___Twilio_Account_Token___"
         client = Client(account_sid, auth_token)
         data = "Someone has scanned your " + prof + " profile from Nosedive!"
         userPhone = 0
@@ -125,7 +117,7 @@ def click_and_keep(event, x, y, flags, param):
                     userPhone = accounts_list[i].number
             if(prof == ""):
                 pass
-            
+
         ############################################################################
         # BEFORE UNCOMMENTING, ADD YOUR TWILIO ACCOUNT SID, TOKEN, AND PHONE NUMBER#
         ############################################################################
@@ -135,10 +127,6 @@ def click_and_keep(event, x, y, flags, param):
         #     	from_="___Twilio_Phone_Number___",
         #     	body=data)
         #     print("Message sent to ", to)
-
-
-
-
 
 
 monkey = Monkey()
@@ -196,7 +184,7 @@ for line in f:
         else:
             twitter = tmp[1]
 
-    account = Account(name,number,fb)
+    account = Account(name, number, fb)
     if twitter is not '':
         account.addTwitter(twitter)
     if insta is not '':
@@ -252,7 +240,6 @@ while True:
         bottom *= 4
         left *= 4
 
-
         #insta = Button()
         #twitter = Button()
 
@@ -273,24 +260,25 @@ while True:
 
             cv2.rectangle(frame, (left, bottom),
                           (right, bottom + 35), (255, 255, 255), cv2.FILLED)
-            if(bottom<=440):
-                fb_button = Button((left+5,bottom),(left + 5 + facebook_icon.shape[1],bottom + facebook_icon.shape[0]),str(fb))
+            if(bottom <= 440):
+                fb_button = Button(
+                    (left + 5, bottom), (left + 5 + facebook_icon.shape[1], bottom + facebook_icon.shape[0]), str(fb))
 
-                twitter_button = Button((left + facebook_icon.shape[1] + 15,bottom),(left + facebook_icon.shape[1] + 15 + facebook_icon.shape[1],bottom + facebook_icon.shape[0]),str(twitter))
+                twitter_button = Button((left + facebook_icon.shape[1] + 15, bottom), (
+                    left + facebook_icon.shape[1] + 15 + facebook_icon.shape[1], bottom + facebook_icon.shape[0]), str(twitter))
 
-                insta_button = Button((left + facebook_icon.shape[1] + facebook_icon.shape[1] + 30,bottom),(left + facebook_icon.shape[1] + 30 + facebook_icon.shape[1]+facebook_icon.shape[1],bottom + facebook_icon.shape[0]),str(insta))
+                insta_button = Button((left + facebook_icon.shape[1] + facebook_icon.shape[1] + 30, bottom), (
+                    left + facebook_icon.shape[1] + 30 + facebook_icon.shape[1] + facebook_icon.shape[1], bottom + facebook_icon.shape[0]), str(insta))
 
                 frame[bottom:bottom + facebook_icon.shape[0],
-                     left + 5:left + 5 + facebook_icon.shape[1]] = facebook_icon
+                      left + 5:left + 5 + facebook_icon.shape[1]] = facebook_icon
                 if(twitter is not ''):
                     frame[bottom:bottom + facebook_icon.shape[0],
-                         left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + facebook_icon.shape[1]] = twitter_icon
-
+                          left + facebook_icon.shape[1] + 15:left + facebook_icon.shape[1] + 15 + facebook_icon.shape[1]] = twitter_icon
 
                 if(insta is not ''):
                     frame[bottom:bottom + facebook_icon.shape[0],
-                         left + facebook_icon.shape[1] + facebook_icon.shape[1] + 30:left + facebook_icon.shape[1] + 30 + facebook_icon.shape[1]+facebook_icon.shape[1]] = insta_icon
-
+                          left + facebook_icon.shape[1] + facebook_icon.shape[1] + 30:left + facebook_icon.shape[1] + 30 + facebook_icon.shape[1] + facebook_icon.shape[1]] = insta_icon
 
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6),
@@ -298,7 +286,8 @@ while True:
 
     # Display the resulting image
     cv2.namedWindow("Video")
-    cv2.setMouseCallback("Video", click_and_keep, (fb_button,twitter_button,insta_button))
+    cv2.setMouseCallback("Video", click_and_keep,
+                         (fb_button, twitter_button, insta_button))
     cv2.imshow('Video', frame)
 
     # Hit 'q' on the keyboard to quit!
